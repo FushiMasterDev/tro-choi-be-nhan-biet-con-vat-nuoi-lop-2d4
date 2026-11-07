@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bé Nhận Biết Con Vật Nuôi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="card">
+  <section id="start">
+    <div class="fruit" aria-hidden="true" style="font-size:64px;margin-bottom:8px">🐶🐱🐔</div>
+    <h1><span>Bé</span> <span>Nhận</span> <span>Biết</span> <span>Con Vật</span> <span>Nuôi</span></h1>
+    <p>10 câu hỏi — nghe cô hỏi rồi chọn đúng con vật nhé</p>
+    <button class="btn" id="startBtn">Bắt đầu</button>
+  </section>
+
+  <section id="quiz" hidden>
+    <div class="top">
+      <span id="count">Câu 1/10</span>
+      <button class="replay" id="replayBtn" aria-label="Nghe lại câu hỏi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>
+        Nghe lại
+      </button>
+      <span id="points">⭐ 0</span>
+    </div>
+    <div class="bar" aria-hidden="true"><div id="progress"></div></div>
+    <div class="question" id="qText"></div>
+    <div class="fruit" id="show" aria-hidden="true" hidden></div>
+    <div class="answers" id="answers"></div>
+    <div class="feedback" id="feedback" aria-live="polite"></div>
+  </section>
+
+  <section id="result" hidden>
+    <h1><span>Giỏi</span> <span>quá</span><span>!</span></h1>
+    <div class="score" id="finalScore"></div>
+    <div class="stars" id="stars" aria-hidden="true"></div>
+    <p id="resultMsg"></p>
+    <button class="btn" id="againBtn">Chơi lại</button>
+  </section>
+</main>
+
+<script>
+// shortcut: pictures are emoji (look differs slightly per device); swap for SVG/PNG if exact art matters.
+const PETS = { "Chó": ["🐶", "con chó"], "Mèo": ["🐱", "con mèo"], "Gà": ["🐓", "con gà"], "Vịt": ["🦆", "con vịt"], "Lợn": ["🐷", "con lợn"], "Bò": ["🐮", "con bò"], "Trâu": ["🐃", "con trâu"], "Dê": ["🐐", "con dê"], "Thỏ": ["🐰", "con thỏ"], "Ngựa": ["🐴", "con ngựa"] };
+
+window.GAME = {
+  known: PETS, audioDir: "audio", readOptions: false, pics: true,
+  option(b, name) {
+    const e = PETS[name][0];
+    // several emoji in one picture (e.g. bố mẹ) are shrunk to fit the square button
+    if ([...new Intl.Segmenter().segment(e)].length > 1) b.innerHTML = `<span class="duo">${e}</span>`; else b.textContent = e;
+    b.setAttribute("aria-label", PETS[name][1]);
+  },
+  wrongText: q => `Chưa đúng rồi, đây mới là ${PETS[q.answer][1]} nè!`,
+  questions: [
+    { answer: "Chó", q: "Đâu là con chó?", options: ["Mèo", "Chó", "Vịt"] },
+    { answer: "Mèo", q: "Đâu là con mèo?", options: ["Mèo", "Thỏ", "Lợn"] },
+    { answer: "Gà", q: "Đâu là con gà?", options: ["Dê", "Bò", "Gà"] },
+    { answer: "Vịt", q: "Đâu là con vịt?", options: ["Vịt", "Ngựa", "Chó"] },
+    { answer: "Lợn", q: "Đâu là con lợn?", options: ["Gà", "Lợn", "Trâu"] },
+    { answer: "Bò", q: "Đâu là con bò?", options: ["Thỏ", "Mèo", "Bò"] },
+    { answer: "Trâu", q: "Đâu là con trâu?", options: ["Trâu", "Gà", "Dê"] },
+    { answer: "Dê", q: "Đâu là con dê?", options: ["Lợn", "Dê", "Vịt"] },
+    { answer: "Thỏ", q: "Đâu là con thỏ?", options: ["Ngựa", "Thỏ", "Gà"] },
+    { answer: "Ngựa", q: "Đâu là con ngựa?", options: ["Ngựa", "Bò", "Mèo"] },
+  ],
+};
+</script>
+<script src="quiz.js"></script>
+</body>
+</html>
